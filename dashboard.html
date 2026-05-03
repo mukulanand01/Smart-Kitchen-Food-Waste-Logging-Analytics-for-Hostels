@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f766e">
+    <title>Dashboard — Smart Kitchen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkAuth(); loadDashboard()">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>🍳 Smart Kitchen</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="logwaste.html">Log Waste</a></li>
+                <li><a href="records.html">Records</a></li>
+                <li><a href="monthly.html">Monthly</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li>
+                    <button class="btn-icon" onclick="toggleMode()" title="Toggle Dark Mode">🌙</button>
+                </li>
+                <li>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="dashboard-header">
+            <p class="page-eyebrow">Overview</p>
+            <h1>Dashboard</h1>
+            <p>Live totals, recent logs, and coaching to cut food waste.</p>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <h3>Total Records</h3>
+                    <p class="stat-value" id="totalRecords">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⚖️</div>
+                <div class="stat-content">
+                    <h3>Total Waste</h3>
+                    <p class="stat-value" id="totalWaste">0 kg</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-content">
+                    <h3>Avg per Entry</h3>
+                    <p class="stat-value" id="avgWaste">0 kg</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-content">
+                    <h3>This Month</h3>
+                    <p class="stat-value" id="monthlyWaste">0 kg</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="recent-records">
+            <h2>Recent Waste Records</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Food Item</th>
+                            <th>Waste (kg)</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentTable">
+                        <tr>
+                            <td colspan="4" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-buttons">
+                <a href="logwaste.html" class="btn-primary">➕ Log New Waste</a>
+                <a href="records.html" class="btn-secondary">📋 View All Records</a>
+                <a href="analytics.html" class="btn-secondary">📊 View Analytics</a>
+            </div>
+        </section>
+
+        <section class="insights">
+            <h2 class="section-heading">Insights</h2>
+            <p class="section-lead">Quick read on volume, timing, and drivers.</p>
+            <div class="insights-box">
+                <ul id="insightsList">
+                    <li>Start logging waste to see insights here.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="recommendations">
+            <h2 class="section-heading">Waste reduction coach</h2>
+            <p class="section-lead">Prioritized actions inferred from your categories, reasons, and amounts.</p>
+            <div id="aiAssistant" class="ai-box" role="region" aria-label="AI waste reduction suggestions"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Smart Kitchen. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

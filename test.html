@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Diagnostic</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    .test-item {
+      padding: 20px;
+      margin: 10px 0;
+      border-left: 4px solid #e0e0e0;
+      border-radius: 5px;
+      background: #f8f9fa;
+    }
+    .test-item.success {
+      border-left-color: #27ae60;
+      background: #d5f4e6;
+    }
+    .test-item.error {
+      border-left-color: #e74c3c;
+      background: #fadbd8;
+    }
+    .test-item h3 {
+      margin: 0 0 10px 0;
+      color: #2c3e50;
+    }
+    .test-item p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #555;
+    }
+    button {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 20px 5px 20px 0;
+      transition: all 0.3s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 Smart Kitchen - System Diagnostic</h1>
+    
+    <div id="resultsContainer"></div>
+    
+    <button onclick="runTests()">Run Diagnostic Tests</button>
+    <button onclick="location.reload()">Refresh</button>
+  </div>
+
+  <script>
+    const API_BASE_URL = "http://localhost:3000";
+
+    async function runTests() {
+      const container = document.getElementById('resultsContainer');
+      container.innerHTML = '<p>Running tests...</p>';
+
+      const results = [];
+
+      // Test 1: API Connectivity
+      results.push(await testAPIConnection());
+
+      // Test 2: MongoDB Connection (via API)
+      results.push(await testMongoDBConnection());
+
+      // Test 3: Add Sample Data
+      results.push(await testAddData());
+
+      // Test 4: Retrieve Data
+      results.push(await testGetData());
+
+      // Display results
+      displayResults(results);
+    }
+
+    async function testAPIConnection() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/waste`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          return {
+            name: '✅ API Server Connection',
+            status: 'success',
+            message: 'Server is running on http://localhost:3000'
+          };
+        } else {
+          return {
+            name: '❌ API Server Connection',
+            status: 'error',
+            message: `Server responded with status ${response.status}`
+          };
+        }
+      } catch (error) {
+        return {
+          name: '❌ API Server Connection',
+          status: 'error',
+          message: 'Cannot connect to server. Make sure it\'s running: node backend/server.js'
+        };
+      }
+    }
+
+    async function testMongoDBConnection() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/waste`);
+        const data = await response.json();
+
+        return {
+          name: '✅ Data Connection',
+          status: 'success',
+          message: `Data accessible. Found ${data.length} records.`
+        };
+      } catch (error) {
+        return {
+          name: '❌ Data Connection',
+          status: 'error',
+          message: 'Data may not be available. Check server logs.'
+        };
+      }
+    }
+
+    async function testAddData() {
+      try {
+        const testData = {
+          date: new Date().toISOString().split('T')[0],
+          food: 'Test Food',
+          category: 'Test',
+          waste: 0.5,
+          reason: 'Test',
+          notes: 'Test entry'
+        };
+
+        const response = await fetch(`${API_BASE_URL}/api/waste`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(testData)
+        });
+
+        if (response.ok) {
+          return {
+            name: '✅ Add Data (Save)',
+            status: 'success',
+            message: 'Can save data to server'
+          };
+        } else {
+          const error = await response.json();
+          return {
+            name: '❌ Add Data (Save)',
+            status: 'error',
+            message: error.message || 'Failed to save data'
+          };
+        }
+      } catch (error) {
+        return {
+          name: '❌ Add Data (Save)',
+          status: 'error',
+          message: error.message
+        };
+      }
+    }
+
+    async function testGetData() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/waste`);
+        const data = await response.json();
+
+        return {
+          name: '✅ Retrieve Data (Read)',
+          status: 'success',
+          message: `Successfully retrieved ${data.length} records from server`
+        };
+      } catch (error) {
+        return {
+          name: '❌ Retrieve Data (Read)',
+          status: 'error',
+          message: error.message
+        };
+      }
+    }
+
+    function displayResults(results) {
+      const container = document.getElementById('resultsContainer');
+      container.innerHTML = '';
+
+      results.forEach(result => {
+        const div = document.createElement('div');
+        div.className = `test-item ${result.status}`;
+        div.innerHTML = `
+          <h3>${result.name}</h3>
+          <p>${result.message}</p>
+        `;
+        container.appendChild(div);
+      });
+
+      // Summary
+      const summary = document.createElement('div');
+      const passed = results.filter(r => r.status === 'success').length;
+      summary.className = 'test-item';
+      summary.style.borderTopWidth = '4px';
+      summary.style.marginTop = '30px';
+      summary.innerHTML = `
+        <h3>Summary: ${passed}/${results.length} Tests Passed</h3>
+        ${passed === results.length 
+          ? '<p style="color: #27ae60; font-weight: bold;">✅ Everything is working correctly!</p>' 
+          : '<p style="color: #e74c3c; font-weight: bold;">⚠️ Some services are not running. Please check the errors above.</p>'}
+      `;
+      container.appendChild(summary);
+    }
+
+    // Run tests automatically on page load
+    window.onload = runTests;
+  </script>
+</body>
+</html>

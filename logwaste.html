@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Waste - Smart Kitchen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkAuth(); setTodayDate()">
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>🍳 Smart Kitchen</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="logwaste.html" class="active">Log Waste</a></li>
+                <li><a href="records.html">Records</a></li>
+                <li><a href="monthly.html">Monthly</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li>
+                    <button class="btn-icon" onclick="toggleMode()" title="Toggle Dark Mode">🌙</button>
+                </li>
+                <li>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="form-header">
+            <h1>Log Waste Entry</h1>
+            <p>Record food waste for tracking and analysis</p>
+        </section>
+
+        <section class="form-section">
+            <form onsubmit="logWaste(event)" class="waste-form">
+                <div class="form-group">
+                    <label for="food">Food Item Name</label>
+                    <input 
+                        type="text" 
+                        id="food" 
+                        placeholder="e.g., Vegetable Scraps, Leftover Rice" 
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="waste">Waste Amount (kg)</label>
+                    <input 
+                        type="number" 
+                        id="waste" 
+                        placeholder="e.g., 0.5" 
+                        step="0.01"
+                        min="0"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input 
+                        type="date" 
+                        id="date" 
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Prepared Food">Prepared Food</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reason">Reason for Waste</label>
+                    <select id="reason">
+                        <option value="Spoiled">Spoiled</option>
+                        <option value="Overstock">Overstock</option>
+                        <option value="Preparation">Preparation Loss</option>
+                        <option value="Not Eaten">Not Eaten</option>
+                        <option value="Expired">Expired</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea 
+                        id="notes" 
+                        placeholder="Add any additional details (optional)" 
+                        rows="4"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">💾 Save Waste Entry</button>
+                    <a href="dashboard.html" class="btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </section>
+
+        <section class="info-box">
+            <h3>💡 Tips for Better Tracking</h3>
+            <ul>
+                <li>Record waste as soon as it happens for accuracy</li>
+                <li>Be specific with food item names</li>
+                <li>Include the reason to identify patterns</li>
+                <li>Use categories to analyze trends by food type</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading">Waste reduction coach</h2>
+            <p class="section-lead">See what to buy less of, use sooner, and store better—based on your history.</p>
+            <div id="aiAssistant" class="ai-box" role="region" aria-label="AI waste reduction suggestions"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Smart Kitchen. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

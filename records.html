@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records - Smart Kitchen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkAuth(); loadWasteTable()">
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>🍳 Smart Kitchen</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="logwaste.html">Log Waste</a></li>
+                <li><a href="records.html" class="active">Records</a></li>
+                <li><a href="monthly.html">Monthly</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li>
+                    <button class="btn-icon" onclick="toggleMode()" title="Toggle Dark Mode">🌙</button>
+                </li>
+                <li>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="records-header">
+            <h1>Waste Records</h1>
+            <p>Complete history of all waste entries</p>
+        </section>
+
+        <section class="filters-section">
+            <div class="filter-controls">
+                <input 
+                    type="search" 
+                    id="searchInput" 
+                    placeholder="Search by food item..." 
+                    onkeyup="filterTable()">
+                <select id="filterCategory" onchange="filterTable()">
+                    <option value="">All Categories</option>
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Fruits">Fruits</option>
+                    <option value="Grains">Grains</option>
+                    <option value="Meat">Meat</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Prepared Food">Prepared Food</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button class="btn-secondary" onclick="sortTable()">Sort by Date</button>
+                <button class="btn-secondary" onclick="exportData()">📥 Export CSV</button>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <div class="table-responsive">
+                <table id="wasteTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Food Item</th>
+                            <th>Category</th>
+                            <th>Waste (kg)</th>
+                            <th>Reason</th>
+                            <th>Notes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="7" class="text-center">Loading records...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="records-summary">
+            <div class="summary-item">
+                <span>Total Records:</span>
+                <strong id="summaryCount">0</strong>
+            </div>
+            <div class="summary-item">
+                <span>Total Waste:</span>
+                <strong id="summaryTotal">0 kg</strong>
+            </div>
+            <div class="summary-item">
+                <span>Average per Entry:</span>
+                <strong id="summaryAvg">0 kg</strong>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading">Waste reduction coach</h2>
+            <p class="section-lead">Top foods and reasons from your full history, with actions to reduce them.</p>
+            <div id="aiAssistant" class="ai-box" role="region" aria-label="AI waste reduction suggestions"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Smart Kitchen. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Smart Kitchen</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkAuth(); loadAnalytics()">
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>🍳 Smart Kitchen</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="logwaste.html">Log Waste</a></li>
+                <li><a href="records.html">Records</a></li>
+                <li><a href="monthly.html">Monthly</a></li>
+                <li><a href="analytics.html" class="active">Analytics</a></li>
+                <li>
+                    <button class="btn-icon" onclick="toggleMode()" title="Toggle Dark Mode">🌙</button>
+                </li>
+                <li>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="analytics-header">
+            <h1>Analytics & Insights</h1>
+            <p>Detailed analysis of your waste patterns</p>
+        </section>
+
+        <section class="overall-stats">
+            <div class="stat-card">
+                <h3>Overall Statistics</h3>
+                <div class="stat-grid-2">
+                    <div>
+                        <p class="stat-label">Total Entries</p>
+                        <p class="stat-value" id="totalEntries">0</p>
+                    </div>
+                    <div>
+                        <p class="stat-label">Total Waste</p>
+                        <p class="stat-value" id="totalWasteAnalytics">0 kg</p>
+                    </div>
+                    <div>
+                        <p class="stat-label">Average Entry</p>
+                        <p class="stat-value" id="avgWasteAnalytics">0 kg</p>
+                    </div>
+                    <div>
+                        <p class="stat-label">Highest Entry</p>
+                        <p class="stat-value" id="highestWaste">0 kg</p>
+                    </div>
+                    <div>
+                        <p class="stat-label">Lowest Entry</p>
+                        <p class="stat-value" id="lowestWaste">0 kg</p>
+                    </div>
+                    <div>
+                        <p class="stat-label">Record Days</p>
+                        <p class="stat-value" id="daysWithRecords">0</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="analytics-charts">
+            <div class="chart-container">
+                <h2>Top Food Categories</h2>
+                <table id="topCategoriesTable">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Count</th>
+                            <th>Total Waste (kg)</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topCategoriesBody">
+                        <tr>
+                            <td colspan="4" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container">
+                <h2>Waste Reasons Distribution</h2>
+                <table id="reasonsTable">
+                    <thead>
+                        <tr>
+                            <th>Reason</th>
+                            <th>Count</th>
+                            <th>Total Waste (kg)</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reasonsBody">
+                        <tr>
+                            <td colspan="4" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="analytics-charts">
+            <h2>📈 Visual Analysis</h2>
+            <div class="chart-container">
+                <canvas id="foodChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="dailyChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="reasonChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Weekly Waste Trend -->
+<section class="analytics-section">
+    <h2>📅 Weekly Waste Trend</h2>
+    <div class="chart-container">
+        <canvas id="weeklyChart"></canvas>
+    </div>
+</section>
+
+
+<!-- AI Waste Prediction -->
+<section class="analytics-section">
+    <h2>🤖 AI Waste Prediction</h2>
+    <div class="ai-box" id="predictionBox">
+        Calculating prediction...
+    </div>
+</section>
+
+
+<!-- Kitchen Efficiency Score -->
+<section class="analytics-section">
+    <h2>⭐ Kitchen Efficiency Score</h2>
+    <div class="score-box">
+        <h1 id="efficiencyScore">0</h1>
+        <p>Efficiency Score</p>
+    </div>
+</section>
+
+
+<!-- Food Waste Cost Calculator -->
+<section class="analytics-section">
+    <h2>💰 Food Waste Cost Calculator</h2>
+    <div class="cost-box">
+        <h3>Total Money Lost Due to Waste</h3>
+        <h1 id="wasteCost">₹0</h1>
+        <p>Estimated using average food price per kg</p>
+    </div>
+</section>
+
+<section class="analytics-section">
+    <h2 class="section-heading">Waste reduction coach</h2>
+    <p class="section-lead">Concrete steps from your full pattern analysis (foods, reasons, categories).</p>
+    <div id="aiAssistant" class="ai-box" role="region" aria-label="AI waste reduction suggestions"></div>
+</section>
+        <section class="analytics-actions">
+            <button class="btn-secondary" onclick="generateFullReport()">📄 Generate Full Report</button>
+            <a href="records.html" class="btn-secondary">View All Records</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Smart Kitchen. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

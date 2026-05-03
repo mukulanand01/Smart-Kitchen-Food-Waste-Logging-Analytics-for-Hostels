@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Report - Smart Kitchen</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Chart.js for graphs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body onload="checkAuth(); loadMonthlyReport()">
+
+<nav class="navbar">
+<div class="nav-container">
+
+<div class="nav-brand">
+<h2>🍳 Smart Kitchen</h2>
+</div>
+
+<ul class="nav-menu">
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="logwaste.html">Log Waste</a></li>
+<li><a href="records.html">Records</a></li>
+<li><a href="monthly.html" class="active">Monthly</a></li>
+<li><a href="analytics.html">Analytics</a></li>
+
+<li>
+<button class="btn-icon" onclick="toggleMode()" title="Toggle Dark Mode">🌙</button>
+</li>
+
+<li>
+<button class="btn-logout" onclick="logout()">Logout</button>
+</li>
+
+</ul>
+</div>
+</nav>
+
+<main class="container">
+
+<section class="monthly-header">
+<h1>Monthly Report</h1>
+<p>Food waste statistics for selected month</p>
+</section>
+
+<section class="month-selector">
+<input type="month" id="monthInput" onchange="loadMonthlyReport()">
+</section>
+
+
+<!-- Monthly Stats -->
+<section class="monthly-stats">
+
+<div class="monthly-card">
+<h3>Total Entries</h3>
+<p id="monthEntries">0</p>
+</div>
+
+<div class="monthly-card">
+<h3>Total Waste</h3>
+<p id="monthTotal">0 kg</p>
+</div>
+
+<div class="monthly-card">
+<h3>Average Waste</h3>
+<p id="monthAvg">0 kg</p>
+</div>
+
+<div class="monthly-card">
+<h3>Highest Waste</h3>
+<p id="monthMax">0 kg</p>
+</div>
+
+</section>
+
+
+<!-- Monthly Charts -->
+<section class="monthly-charts">
+
+<h2>📊 Monthly Waste Charts</h2>
+
+<div class="chart-grid">
+
+<div class="chart-box">
+<h3>Waste by Category</h3>
+<canvas id="monthCategoryChart"></canvas>
+</div>
+
+<div class="chart-box">
+<h3>Waste by Reason</h3>
+<canvas id="monthReasonChart"></canvas>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- AI Monthly Insights -->
+<section class="monthly-ai">
+
+<h2>🤖 AI Monthly Insights</h2>
+
+<div id="monthlyAI" class="ai-box">
+Generating insights...
+</div>
+
+</section>
+
+
+<!-- Top Wasted Foods -->
+<section class="top-month-foods">
+
+<h2>🏆 Most Wasted Foods This Month</h2>
+
+<ul id="monthlyTopFoods">
+<li>Loading...</li>
+</ul>
+
+</section>
+
+
+<!-- Export Section -->
+<section class="monthly-actions">
+
+<button class="btn-secondary" onclick="exportMonthlyCSV()">
+📥 Export Report
+</button>
+
+<a href="analytics.html" class="btn-secondary">
+View Detailed Analytics
+</a>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+<p>© 2026 Smart Kitchen System</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
